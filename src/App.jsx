@@ -1,18 +1,32 @@
 import { useState } from 'react';
+import { useAuth } from './contexts/Auth';
 import DietView from './components/DietView';
 import TrainingView from './components/TrainingView';
 import ProgressView from './components/ProgressView';
+import Login from './components/Login';
+import Loading from './components/Loading';
+import HoplitLogo from './components/HoplitLogo';
 import './App.css';
 
 function App() {
+    const { user, loading } = useAuth();
     const [activeView, setActiveView] = useState('diet');
+
+    if (loading) {
+        return <Loading type="full" />;
+    }
+
+    if (!user) {
+        return <Login />;
+    }
 
     return (
         <div className="app">
             <header className="app-header">
                 <div className="header-content">
                     <h1 className="app-title">
-                        <span className="gradient-text">💪 HoplitApp</span>
+                        <HoplitLogo className="header-logo" />
+                        <span className="gradient-text">HoplitApp</span>
                     </h1>
                     <nav className="app-nav">
                         <button

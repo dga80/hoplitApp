@@ -28,6 +28,17 @@
     font-weight: 700;
     text-align: center;
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.header-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    mix-blend-mode: screen;
 }
 
 .app-nav {
