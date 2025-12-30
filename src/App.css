@@ -32,49 +32,45 @@
 
 .app-nav {
     display: flex;
-    gap: var(--spacing-xs);
+    gap: 0;
     justify-content: center;
-    flex-wrap: wrap;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-btn {
-    padding: 0.7rem 1.5rem;
+    flex: 1;
+    max-width: 200px;
+    padding: 0.85rem 1rem;
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-full);
+    border: none;
+    border-bottom: 3px solid transparent;
     color: var(--text-secondary);
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all var(--transition-base);
     position: relative;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
-.nav-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-primary);
-    opacity: 0;
-    transition: opacity var(--transition-base);
-    z-index: -1;
+.nav-icon {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.5;
 }
 
 .nav-btn:hover {
-    border-color: rgba(168, 85, 247, 0.4);
     color: var(--text-primary);
-    transform: translateY(-2px);
+    background: rgba(168, 85, 247, 0.05);
 }
 
 .nav-btn.active {
-    border-color: transparent;
     color: white;
-    box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
-}
-
-.nav-btn.active::before {
-    opacity: 1;
+    border-bottom-color: #a855f7;
+    background: rgba(168, 85, 247, 0.1);
 }
 
 .app-main {
@@ -102,10 +98,18 @@
 
     .nav-btn {
         flex: 1;
-        min-width: 100px;
+        min-width: 80px;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .nav-icon {
+        width: 16px;
+        height: 16px;
     }
 
     .header-content {
         padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
     }
 }

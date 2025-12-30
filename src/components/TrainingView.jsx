@@ -41,19 +41,19 @@ export default function TrainingView() {
                         className={`btn btn-secondary ${activeDay === 'monday' ? 'active' : ''}`}
                         onClick={() => setActiveDay('monday')}
                     >
-                        LUN - Empuje
+                        Día 1 - Empuje
                     </button>
                     <button
                         className={`btn btn-secondary ${activeDay === 'wednesday' ? 'active' : ''}`}
                         onClick={() => setActiveDay('wednesday')}
                     >
-                        MIÉ - Tirón
+                        Día 2 - Tirón
                     </button>
                     <button
                         className={`btn btn-secondary ${activeDay === 'friday' ? 'active' : ''}`}
                         onClick={() => setActiveDay('friday')}
                     >
-                        VIE - Híbrido
+                        Día 3 - Híbrido
                     </button>
                 </div>
             </div>
