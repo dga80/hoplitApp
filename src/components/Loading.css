@@ -36,10 +36,7 @@
     object-fit: contain;
     z-index: 2;
     animation: float 2s ease-in-out infinite;
-    filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.3));
-    /* Orange glow matching logo */
-    mix-blend-mode: screen;
-    /* Makes the black background transparent */
+    filter: drop-shadow(0 0 15px rgba(255, 107, 0, 0.4));
 }
 
 .loading-container.mini .loading-logo {
