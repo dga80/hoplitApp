@@ -1,0 +1,111 @@
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-header {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.app-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+}
+
+.app-nav {
+    display: flex;
+    gap: var(--spacing-xs);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    padding: 0.7rem 1.5rem;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    z-index: -1;
+}
+
+.nav-btn:hover {
+    border-color: rgba(168, 85, 247, 0.4);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.nav-btn.active {
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+}
+
+.nav-btn.active::before {
+    opacity: 1;
+}
+
+.app-main {
+    flex: 1;
+    padding: var(--spacing-lg) 0;
+}
+
+.app-footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-lg);
+    text-align: center;
+}
+
+.app-footer p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .app-title {
+        font-size: 1.5rem;
+    }
+
+    .nav-btn {
+        flex: 1;
+        min-width: 100px;
+    }
+
+    .header-content {
+        padding: var(--spacing-sm);
+    }
+}

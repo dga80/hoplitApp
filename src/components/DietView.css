@@ -1,0 +1,121 @@
+.diet-view {
+    padding: var(--spacing-md);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.diet-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.diet-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+}
+
+.diet-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+.diet-toggle {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.diet-toggle .btn {
+    min-width: 180px;
+}
+
+.meals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.meal-card {
+    padding: var(--spacing-md);
+    animation-delay: calc(var(--i) * 50ms);
+}
+
+.meal-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.meal-time {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.meal-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.meal-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.meal-foods,
+.meal-quantity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.value {
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.meal-notes {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    background: rgba(168, 85, 247, 0.1);
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--accent-purple);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: var(--spacing-xs);
+}
+
+.notes-icon {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .diet-header h1 {
+        font-size: 2rem;
+    }
+
+    .meals-grid {
+        grid-template-columns: 1fr;
+    }
+}
