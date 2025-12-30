@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../supabaseClient';
+import HoplitLogo from './HoplitLogo';
 import './Login.css';
 
 export default function Login() {
@@ -17,7 +18,7 @@ export default function Login() {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: window.location.origin,
+                    redirectTo: window.location.origin, // This dynamically uses the current URL (Netlify or Local)
                 },
             });
             if (error) throw error;
@@ -59,7 +60,8 @@ export default function Login() {
         <div className="login-container">
             <div className="login-card">
                 <h1 className="login-title">
-                    <span className="gradient-text">💪 HoplitApp</span>
+                    <HoplitLogo className="login-logo" />
+                    <span className="gradient-text">HoplitApp</span>
                 </h1>
                 <p className="login-subtitle">
                     {isSignUp ? 'Crea tu cuenta' : 'Inicia sesión para continuar'}

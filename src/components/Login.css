@@ -19,8 +19,17 @@
 }
 
 .login-title {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.login-logo {
+    width: 60px;
+    height: 60px;
 }
 
 .login-subtitle {
