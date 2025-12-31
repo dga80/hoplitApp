@@ -38,7 +38,9 @@ export default function ProgressView() {
             const daysSet = new Set();
             logs.forEach(l => {
                 if (l.completed || (l.weight && l.weight > 0)) {
-                    daysSet.add(l.date);
+                    // Normalize to YYYY-MM-DD just in case
+                    const dateVal = l.date.includes('T') ? l.date.split('T')[0] : l.date;
+                    daysSet.add(dateVal);
                 }
             });
             const sortedDays = Array.from(daysSet).sort();
@@ -50,20 +52,16 @@ export default function ProgressView() {
             const recentWorkouts = sortedDays.filter(d => new Date(d) >= thirtyDaysAgo).length;
             setStreak(recentWorkouts);
 
-            // Chart Data
+            // Chart Data: Dynamically include all exercises with weight history
             const dataMap = {};
-            CORE_EXERCISES.forEach(name => dataMap[name] = []);
 
             logs.forEach(log => {
                 const exName = log.exercises?.name;
-                // Match core exercises (partial match)
                 if (exName && log.weight > 0) {
-                    const coreKey = CORE_EXERCISES.find(c => exName.includes(c));
-                    if (coreKey) {
-                        // Only keep the max weight for that day if multiple exist?
-                        // For simplicity, just push all. SVG will handle it.
-                        dataMap[coreKey].push({ date: log.date, weight: Number(log.weight) });
+                    if (!dataMap[exName]) {
+                        dataMap[exName] = [];
                     }
+                    dataMap[exName].push({ date: log.date, weight: Number(log.weight) });
                 }
             });
 

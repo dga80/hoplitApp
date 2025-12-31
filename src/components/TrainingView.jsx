@@ -186,12 +186,34 @@ export default function TrainingView() {
                 }));
             }
 
-            alert(`✅ Peso guardado: ${weightVal}kg`);
             setInputWeights(prev => ({ ...prev, [exerciseId]: '' }));
             fetchTrainingData();
         } catch (err) {
             console.error("Error saving weight:", err);
-            alert("Error al guardar el peso");
+        }
+    };
+
+    const handleDeleteAllData = async () => {
+        if (!window.confirm("⚠️ ATENCIÓN: ¿Estás seguro de que quieres borrar TODOS tus datos de entrenamiento y progreso? Esta acción no se puede deshacer.")) {
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const { error } = await supabase
+                .from('exercise_logs')
+                .delete()
+                .eq('user_id', user.id);
+
+            if (error) throw error;
+
+            alert("✅ Todos los datos han sido eliminados.");
+            fetchTrainingData();
+        } catch (err) {
+            console.error("Error deleting all data:", err);
+            alert("Error al eliminar los datos.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -366,6 +388,15 @@ export default function TrainingView() {
                         </div>
                     </div>
                 )}
+            </div>
+
+            <div className="danger-zone">
+                <button
+                    className="btn-text-muted"
+                    onClick={handleDeleteAllData}
+                >
+                    Reiniciar todos mis datos
+                </button>
             </div>
         </div>
     );
