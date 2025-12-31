@@ -34,9 +34,13 @@ export default function ProgressView() {
 
             if (error) throw error;
 
-            // Gym Days
+            // Gym Days: include if completed OR has weight registered
             const daysSet = new Set();
-            logs.filter(l => l.completed).forEach(l => daysSet.add(l.date));
+            logs.forEach(l => {
+                if (l.completed || (l.weight && l.weight > 0)) {
+                    daysSet.add(l.date);
+                }
+            });
             const sortedDays = Array.from(daysSet).sort();
             setGymDays(sortedDays);
 

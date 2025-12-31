@@ -61,7 +61,6 @@ export default function TrainingView() {
             setRoutines(routinesMap);
 
             // 3. Fetch Logs (History & Today's Status) for ALL exercises
-            // Optimally we limit to recent logs, but for now fetch all is fine.
             if (allExerciseIds.length > 0) {
                 const { data: logsData, error: logsError } = await supabase
                     .from('exercise_logs')
@@ -98,8 +97,6 @@ export default function TrainingView() {
     };
 
     const seedTrainingData = async () => {
-        // ... (Same seeding logic as before, kept short for brevity if I could, but I must provide full file)
-        // Copying previous seeding logic exactly to ensure it works
         try {
             console.log("Seeding training data...");
             const daysMap = { monday: 'monday', wednesday: 'wednesday', friday: 'friday' };
@@ -131,7 +128,6 @@ export default function TrainingView() {
         const todayLogId = logs[exerciseId]?.todayLogId;
         const today = new Date().toISOString().split('T')[0];
 
-        // Optimistic update
         setLogs(prev => ({
             ...prev,
             [exerciseId]: { ...prev[exerciseId], completed: newStatus }
@@ -139,10 +135,8 @@ export default function TrainingView() {
 
         try {
             if (todayLogId) {
-                // Update existing
                 await supabase.from('exercise_logs').update({ completed: newStatus }).eq('id', todayLogId);
             } else {
-                // Insert new
                 const { data, error } = await supabase.from('exercise_logs').insert({
                     user_id: user.id,
                     exercise_id: exerciseId,
@@ -152,7 +146,6 @@ export default function TrainingView() {
 
                 if (error) throw error;
 
-                // Update state with new ID
                 setLogs(prev => ({
                     ...prev,
                     [exerciseId]: { ...prev[exerciseId], todayLogId: data.id }
@@ -160,7 +153,6 @@ export default function TrainingView() {
             }
         } catch (err) {
             console.error("Error toggling check:", err);
-            // Revert on error
             setLogs(prev => ({
                 ...prev,
                 [exerciseId]: { ...prev[exerciseId], completed: currentStatus }
@@ -177,16 +169,14 @@ export default function TrainingView() {
 
         try {
             if (todayLogId) {
-                // Update existing
                 await supabase.from('exercise_logs').update({ weight: weightVal }).eq('id', todayLogId);
             } else {
-                // Insert new
                 const { data, error } = await supabase.from('exercise_logs').insert({
                     user_id: user.id,
                     exercise_id: exerciseId,
                     date: today,
                     weight: weightVal,
-                    completed: false // Default to false if just adding weight? Or keep as is?
+                    completed: false
                 }).select().single();
                 if (error) throw error;
 
@@ -198,10 +188,26 @@ export default function TrainingView() {
 
             alert(`✅ Peso guardado: ${weightVal}kg`);
             setInputWeights(prev => ({ ...prev, [exerciseId]: '' }));
-            fetchTrainingData(); // Re-fetch to update history/UI correctly
+            fetchTrainingData();
         } catch (err) {
             console.error("Error saving weight:", err);
             alert("Error al guardar el peso");
+        }
+    };
+
+    const handleDeleteWeight = async (logId, exerciseId, isCompleted) => {
+        if (!window.confirm("¿Estás seguro de que quieres borrar este registro de peso?")) return;
+
+        try {
+            if (isCompleted) {
+                await supabase.from('exercise_logs').update({ weight: null }).eq('id', logId);
+            } else {
+                await supabase.from('exercise_logs').delete().eq('id', logId);
+            }
+            fetchTrainingData();
+        } catch (err) {
+            console.error("Error deleting weight:", err);
+            alert("Error al borrar el peso");
         }
     };
 
@@ -305,10 +311,22 @@ export default function TrainingView() {
                                     <div className="history-items">
                                         {logData.history.slice(0, 3).map((h, i) => (
                                             <div key={i} className="history-item">
-                                                <span className="history-weight">{h.weight}kg</span>
-                                                <span className="history-date">
-                                                    {new Date(h.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
-                                                </span>
+                                                <div className="history-info">
+                                                    <span className="history-weight">{h.weight}kg</span>
+                                                    <span className="history-date">
+                                                        {new Date(h.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    className="delete-weight-btn"
+                                                    onClick={() => handleDeleteWeight(h.id, exercise.id, h.completed)}
+                                                    title="Borrar peso"
+                                                >
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                    </svg>
+                                                </button>
                                             </div>
                                         ))}
                                     </div>
@@ -320,7 +338,6 @@ export default function TrainingView() {
                 })}
             </div>
 
-            {/* Glossary Section (Kept Same) */}
             <div className="glossary-section">
                 <button
                     className="btn btn-secondary glossary-toggle"
