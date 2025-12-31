@@ -218,6 +218,30 @@ export default function ProgressView() {
         );
     };
 
+    const handleDeleteAllData = async () => {
+        if (!window.confirm("⚠️ ATENCIÓN: ¿Estás seguro de que quieres borrar TODOS tus datos de entrenamiento y progreso? Esta acción no se puede deshacer.")) {
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const { error } = await supabase
+                .from('exercise_logs')
+                .delete()
+                .eq('user_id', user.id);
+
+            if (error) throw error;
+
+            alert("✅ Todos los datos han sido eliminados.");
+            fetchProgress();
+        } catch (err) {
+            console.error("Error deleting all data:", err);
+            alert("Error al eliminar los datos.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     if (loading) return <Loading type="mini" />;
 
     return (
@@ -258,6 +282,15 @@ export default function ProgressView() {
             </div>
 
             {showCalendar && <CalendarModal days={gymDays} onClose={() => setShowCalendar(false)} />}
+
+            <div className="danger-zone">
+                <button
+                    className="btn-text-muted"
+                    onClick={handleDeleteAllData}
+                >
+                    Reiniciar todos mis datos
+                </button>
+            </div>
         </div>
     );
 }
