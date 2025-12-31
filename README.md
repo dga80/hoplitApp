@@ -10,7 +10,7 @@ Aplicación web moderna de fitness con plan de dieta y seguimiento de entrenamie
   - Checkboxes para marcar ejercicios completados
   - Registro de pesos utilizados
   - Historial completo de entrenamientos
-- **Persistencia Local**: Todos los datos se guardan en localStorage del navegador
+- **Persistencia en base de datos
 - **Diseño Premium**: Interfaz moderna con glasmorphism, modo oscuro y animaciones suaves
 - **Mobile-First**: Totalmente responsive y optimizado para móviles
 
