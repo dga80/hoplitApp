@@ -191,7 +191,7 @@
 }
 
 .cal-day.active {
-    background: var(--primary-gradient);
+    background: var(--gradient-primary);
     color: white;
     font-weight: bold;
 }
