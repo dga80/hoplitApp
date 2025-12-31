@@ -73,7 +73,13 @@ export default function TrainingView() {
 
                 // Process logs
                 const logsMap = {};
-                const today = new Date().toISOString().split('T')[0];
+
+                // Generate local YYYY-MM-DD to match save/update logic
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const today = `${year}-${month}-${day}`;
 
                 allExerciseIds.forEach(id => {
                     const exerciseLogs = logsData.filter(l => l.exercise_id === id);
@@ -181,14 +187,15 @@ export default function TrainingView() {
 
         try {
             if (todayLogId) {
-                await supabase.from('exercise_logs').update({ weight: weightVal }).eq('id', todayLogId);
+                // Auto-set completed: true when weight is saved
+                await supabase.from('exercise_logs').update({ weight: weightVal, completed: true }).eq('id', todayLogId);
             } else {
                 const { data, error } = await supabase.from('exercise_logs').insert({
                     user_id: user.id,
                     exercise_id: exerciseId,
                     date: today,
                     weight: weightVal,
-                    completed: false
+                    completed: true // Auto-complete
                 }).select().single();
                 if (error) throw error;
 
@@ -286,12 +293,6 @@ export default function TrainingView() {
                     return (
                         <div key={exercise.id} className="exercise-card glass-card fade-in" style={{ '--i': index }}>
                             <div className="exercise-header">
-                                <input
-                                    type="checkbox"
-                                    checked={logData.completed || false}
-                                    onChange={() => handleCheckbox(exercise.id)}
-                                    className="exercise-checkbox"
-                                />
                                 <div className="exercise-title">
                                     <h3>{exercise.name}</h3>
                                     {logData.lastWeight && (

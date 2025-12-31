@@ -25,31 +25,39 @@ export default function ProgressView() {
         try {
             setLoading(true);
 
-            // Fetch logs
+            // Fetch logs with routine info
             const { data: logs, error } = await supabase
                 .from('exercise_logs')
-                .select(`date, weight, completed, exercises (name)`)
+                .select(`date, weight, completed, exercises (name, routine_id, training_routines (day_name))`)
                 .eq('user_id', user.id)
                 .order('date', { ascending: true });
 
             if (error) throw error;
 
-            // Gym Days: include if completed OR has weight registered
-            const daysSet = new Set();
+            // Gym Days: Map date to day type (monday/wednesday/friday)
+            // We use a Map to handle multiple logs per day, prioritizing if needed
+            const daysMap = new Map();
+
             logs.forEach(l => {
                 if (l.completed || (l.weight && l.weight > 0)) {
-                    // Normalize to YYYY-MM-DD just in case
+                    // Normalize to YYYY-MM-DD
                     const dateVal = l.date.includes('T') ? l.date.split('T')[0] : l.date;
-                    daysSet.add(dateVal);
+                    const dayType = l.exercises?.training_routines?.day_name; // 'monday', 'wednesday', 'friday'
+
+                    if (!daysMap.has(dateVal)) {
+                        daysMap.set(dateVal, dayType);
+                    }
                 }
             });
-            const sortedDays = Array.from(daysSet).sort();
+
+            // Convert to array of objects for easier consumption { date: 'YYYY-MM-DD', type: 'monday' }
+            const sortedDays = Array.from(daysMap.entries()).map(([date, type]) => ({ date, type })).sort((a, b) => a.date.localeCompare(b.date));
             setGymDays(sortedDays);
 
             // Streak (last 30 days)
             const thirtyDaysAgo = new Date();
             thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-            const recentWorkouts = sortedDays.filter(d => new Date(d) >= thirtyDaysAgo).length;
+            const recentWorkouts = sortedDays.filter(d => new Date(d.date) >= thirtyDaysAgo).length;
             setStreak(recentWorkouts);
 
             // Chart Data: Dynamically include all exercises with weight history
@@ -133,11 +141,14 @@ export default function ProgressView() {
                             const day = String(date.getDate()).padStart(2, '0');
                             const dateStr = `${year}-${month}-${day}`;
 
-                            const isGymDay = days.includes(dateStr);
+                            // Find if this date is in gymDays array (which is now objects {date, type})
+                            const gymDayObj = days.find(d => d.date === dateStr);
+                            const isGymDay = !!gymDayObj;
+                            const dayTypeClass = gymDayObj ? `type-${gymDayObj.type}` : '';
                             const isToday = date.toDateString() === today.toDateString();
 
                             return (
-                                <div key={i} className={`cal-day ${isGymDay ? 'active' : ''} ${isToday ? 'today' : ''}`}>
+                                <div key={i} className={`cal-day ${isGymDay ? 'active' : ''} ${dayTypeClass} ${isToday ? 'today' : ''}`}>
                                     {date.getDate()}
                                 </div>
                             );

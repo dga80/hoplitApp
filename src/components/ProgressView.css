@@ -190,11 +190,29 @@
     background: none;
 }
 
+.cal-day.active.type-monday {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    /* Blue */
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.4);
+}
+
+.cal-day.active.type-wednesday {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+    /* Purple */
+    box-shadow: 0 2px 4px rgba(168, 85, 247, 0.4);
+}
+
+.cal-day.active.type-friday {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+    /* Pink */
+    box-shadow: 0 2px 4px rgba(236, 72, 153, 0.4);
+}
+
+/* Fallback for unknown type */
 .cal-day.active {
     background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
     color: white;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(168, 85, 247, 0.4);
 }
 
 .cal-day.today {

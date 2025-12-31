@@ -30,6 +30,44 @@
 
 .training-toggle .btn {
     min-width: 140px;
+    border-bottom: 3px solid transparent;
+    /* Prepare for color indicator */
+}
+
+/* Day 1 - Blue */
+.training-toggle .btn:nth-child(1) {
+    border-bottom-color: rgba(59, 130, 246, 0.3);
+}
+
+.training-toggle .btn:nth-child(1).active {
+    border-color: rgba(59, 130, 246, 0.5);
+    border-bottom-color: #3b82f6;
+    background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+/* Day 2 - Purple */
+.training-toggle .btn:nth-child(2) {
+    border-bottom-color: rgba(168, 85, 247, 0.3);
+}
+
+.training-toggle .btn:nth-child(2).active {
+    border-color: rgba(168, 85, 247, 0.5);
+    border-bottom-color: #a855f7;
+    background: linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, rgba(168, 85, 247, 0.05) 100%);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+}
+
+/* Day 3 - Pink */
+.training-toggle .btn:nth-child(3) {
+    border-bottom-color: rgba(236, 72, 153, 0.3);
+}
+
+.training-toggle .btn:nth-child(3).active {
+    border-color: rgba(236, 72, 153, 0.5);
+    border-bottom-color: #ec4899;
+    background: linear-gradient(180deg, rgba(236, 72, 153, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.2);
 }
 
 .exercises-list {
