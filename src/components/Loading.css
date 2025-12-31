@@ -13,8 +13,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: var(--bg-color);
-    /* Matches app background */
+    background: transparent;
     z-index: 9999;
 }
 
