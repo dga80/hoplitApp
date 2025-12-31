@@ -314,7 +314,7 @@ export default function TrainingView() {
                                                 <div className="history-info">
                                                     <span className="history-weight">{h.weight}kg</span>
                                                     <span className="history-date">
-                                                        {new Date(h.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
+                                                        {new Date(h.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' })}
                                                     </span>
                                                 </div>
                                                 <button
