@@ -52,7 +52,7 @@ La aplicación almacena:
 - Pesos registrados por ejercicio
 - Historial de entrenamientos por fecha
 
-Todo se guarda en localStorage, sin necesidad de backend.
+Todo se guarda en supabase para persistencia de datos al cambiar de dispositivo
 
 ## 🎨 Tecnologías
 
