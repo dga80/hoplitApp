@@ -126,7 +126,13 @@ export default function TrainingView() {
         const currentStatus = logs[exerciseId]?.completed || false;
         const newStatus = !currentStatus;
         const todayLogId = logs[exerciseId]?.todayLogId;
-        const today = new Date().toISOString().split('T')[0];
+
+        // Generate local YYYY-MM-DD to avoid timezone shifts
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const today = `${year}-${month}-${day}`;
 
         setLogs(prev => ({
             ...prev,
@@ -165,7 +171,13 @@ export default function TrainingView() {
         if (!weightVal || weightVal <= 0) return;
 
         const todayLogId = logs[exerciseId]?.todayLogId;
-        const today = new Date().toISOString().split('T')[0];
+
+        // Generate local YYYY-MM-DD
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const today = `${year}-${month}-${day}`;
 
         try {
             if (todayLogId) {

@@ -191,9 +191,10 @@
 }
 
 .cal-day.active {
-    background: var(--gradient-primary);
+    background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
     color: white;
     font-weight: bold;
+    box-shadow: 0 2px 4px rgba(168, 85, 247, 0.4);
 }
 
 .cal-day.today {
